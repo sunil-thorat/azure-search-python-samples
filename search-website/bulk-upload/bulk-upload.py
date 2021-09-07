@@ -9,8 +9,8 @@ from azure.search.documents.indexes.models import SearchIndex
 
 
 # Get the service name (short name) and admin API key from the environment
-endpoint = 'YOUR-SEARCH-SERVICE-NAME'
-key = 'YOUR-SEARCH-SERVICE-ADMIN-API-KEY'
+endpoint = 'https://mix.search.windows.net'
+key = 'FFD1FC08CA4B7F368976E43065D978FA'
 
 
 # Give your index a name
