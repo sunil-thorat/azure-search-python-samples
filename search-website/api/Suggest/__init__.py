@@ -13,11 +13,11 @@ environment_vars = azure_config()
 #  http://localhost:7071/api/Suggest
 
 # Set Azure Search endpoint and key
-endpoint = f'https://{environment_vars["search_service_name"]}.search.windows.net'
-key = environment_vars["search_api_key"]
+endpoint = 'https://mix.search.windows.net'
+key = "ABF7920FCE83D3B4CA63947C7FDCE13F"
 
 # Your index name
-index_name = 'good-books'
+index_name = 'cosmosdb-index'
 
 # Create Azure SDK client
 search_client = SearchClient(endpoint, index_name, AzureKeyCredential(key))
@@ -32,13 +32,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if q:
         logging.info(f"/Suggest q = {q}")
-        suggestions = search_client.suggest(search_text="code", suggester_name="sg", top=5)
+        suggestions = search_client.suggest(search_text=q, suggester_name="sg", top=5, search_fields="HotelName")
         
         # format the React app expects
         full_response = {}
         full_response["suggestions"]=suggestions
         
-        return func.HttpResponse(body=json.dumps(full_response), mimetype="application/json",status_code=200)
+        return func.HttpResponse(body=json.dumps(full_response), mimetype="application/json", status_code=200)
     else:
         return func.HttpResponse(
              "No query param found.",
