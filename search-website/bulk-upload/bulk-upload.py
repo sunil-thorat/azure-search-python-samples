@@ -52,13 +52,15 @@ def create_schema_from_json_and_upload(schema, index_name, admin_client, url=Fal
     if not url:
         with open(schema) as json_file:
             schema_data = json.load(json_file)
+
             try:
-                upload_schema = admin_client.create_index(SearchIndex(name=index_name, fields=schema_data['fields']))
+                upload_schema = admin_client.create_index(SearchIndex(name=index_name, fields=schema_data['fields'], suggesters=schema_data['suggesters'], cors_options=schema_data['corsOptions']))
                 if upload_schema:
                     print(f'Schema uploaded; Index created for {index_name}.')
                 else:
                     exit(0)
-            except:
+            except Exception as e:
+                print(e)
                 print("Unexpected error:", sys.exc_info()[0])
             
     else:
